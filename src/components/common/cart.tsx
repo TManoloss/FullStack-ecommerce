@@ -1,0 +1,29 @@
+"use client";
+
+import { ShoppingBasketIcon } from "lucide-react";
+
+import { Button } from "../ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+
+export const Cart = () => {
+  return (
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline" size="icon">
+          <ShoppingBasketIcon />
+        </Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Minha sacola</SheetTitle>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+  );
+};
