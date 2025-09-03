@@ -2,7 +2,6 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingBasketIcon } from "lucide-react";
-import Image from "next/image";
 
 import { getCart } from "@/action/get-cart";
 import { Button } from "@/components/ui/button";
@@ -63,11 +62,16 @@ export const Cart = () => {
 
               <div className="flex items-center justify-between text-xs font-medium">
                 <p>Subtotal</p>
-                <p>{formatCentsToBRL(
-                  cart?.items.reduce((total, item) => 
-                    total + (item.productVariant.priceInCents * item.quantity), 0
-                  ) ?? 0
-                )}</p>
+                <p>
+                  {formatCentsToBRL(
+                    cart?.items.reduce(
+                      (total, item) =>
+                        total +
+                        item.productVariant.priceInCents * item.quantity,
+                      0,
+                    ) ?? 0,
+                  )}
+                </p>
               </div>
 
               <Separator />
@@ -81,11 +85,16 @@ export const Cart = () => {
 
               <div className="flex items-center justify-between text-xs font-medium">
                 <p>Total</p>
-                <p>{formatCentsToBRL(
-                  cart?.items.reduce((total, item) => 
-                    total + (item.productVariant.priceInCents * item.quantity), 0
-                  ) ?? 0
-                )}</p>
+                <p>
+                  {formatCentsToBRL(
+                    cart?.items.reduce(
+                      (total, item) =>
+                        total +
+                        item.productVariant.priceInCents * item.quantity,
+                      0,
+                    ) ?? 0,
+                  )}
+                </p>
               </div>
 
               <Button className="mt-5 rounded-full">Finalizar compra</Button>
