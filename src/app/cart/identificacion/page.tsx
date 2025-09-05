@@ -44,9 +44,9 @@ const IdentificationPage = async () => {
     0,
   );
   return (
-    <>
+    <div className="space-y-4">
       <Header />
-      <div className="md:flex">
+      <div className="space-y-4 md:flex">
         <div className="md:w-1/2 md:pr-6">
           <Addresses
             shippingAddresses={shippingAddresses}
@@ -69,7 +69,7 @@ const IdentificationPage = async () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

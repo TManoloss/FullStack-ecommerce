@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,7 @@ const Addresses = ({
   shippingAddresses,
   defaultShippingAddressId,
 }: AddressesProps) => {
+  const router = useRouter();
   const [selectedAddress, setSelectedAddress] = useState<string | null>(
     defaultShippingAddressId,
   );
@@ -45,6 +47,9 @@ const Addresses = ({
       updateCartShippingAddressMutation.mutate({
         shippingAddressId: selectedAddress,
       });
+    }
+    if (selectedAddress !== "add_new") {
+      router.push("/cart/confirmation");
     }
   };
 
