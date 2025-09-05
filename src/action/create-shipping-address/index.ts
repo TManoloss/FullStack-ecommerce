@@ -1,16 +1,22 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
 import { db } from "@/db";
 import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
-import { CreateShippingAddressSchema, createShippingAddressSchema } from "./schema";
+import {
+  CreateShippingAddressSchema,
+  createShippingAddressSchema,
+} from "./schema";
 
-export const createShippingAddress = async (data: CreateShippingAddressSchema) => {
+export const createShippingAddress = async (
+  data: CreateShippingAddressSchema,
+) => {
   createShippingAddressSchema.parse(data);
-  
+
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -37,6 +43,8 @@ export const createShippingAddress = async (data: CreateShippingAddressSchema) =
       cpfOrCnpj: data.cpfOrCnpj,
     })
     .returning();
+
+  revalidatePath("/cart/identificacion");
 
   return shippingAddress;
 };

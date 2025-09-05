@@ -17,6 +17,7 @@ export const getCart = async () => {
   const cart = await db.query.cartTable.findFirst({
     where: (cartTable, { eq }) => eq(cartTable.userId, session.user.id),
     with: {
+      shippingAddress: true,
       items: {
         with: {
           productVariant: {
@@ -38,6 +39,7 @@ export const getCart = async () => {
     return {
       ...newCart,
       items: [],
+      shippingAddress: null,
     };
   }
   return cart;

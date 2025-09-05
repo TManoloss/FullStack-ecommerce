@@ -33,7 +33,11 @@ const addressFormSchema = z.object({
 
 type AddressFormValues = z.infer<typeof addressFormSchema>;
 
-const AddressForm = () => {
+interface AddressFormProps {
+  onAddressCreated?: (addressId: string) => void;
+}
+
+const AddressForm = ({ onAddressCreated }: AddressFormProps) => {
   const createShippingAddressMutation = useCreateShippingAddress();
   
   const form = useForm<AddressFormValues>({
@@ -67,8 +71,11 @@ const AddressForm = () => {
       city: values.cidade,
       state: values.estado,
     }, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         form.reset();
+        if (onAddressCreated && data?.id) {
+          onAddressCreated(data.id);
+        }
       },
     });
   };
