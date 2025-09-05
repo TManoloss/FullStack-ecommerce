@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useCreateShippingAddress } from "@/hooks/mutations/use-create-shipping-address";
 
 const addressFormSchema = z.object({
   email: z.email("Email inválido"),
@@ -33,6 +34,8 @@ const addressFormSchema = z.object({
 type AddressFormValues = z.infer<typeof addressFormSchema>;
 
 const AddressForm = () => {
+  const createShippingAddressMutation = useCreateShippingAddress();
+  
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressFormSchema),
     defaultValues: {
@@ -51,8 +54,23 @@ const AddressForm = () => {
   });
 
   const onSubmit = (values: AddressFormValues) => {
-    console.log(values);
-    // TODO: Implement address submission logic
+    createShippingAddressMutation.mutate({
+      email: values.email,
+      recipientName: values.nomeCompleto,
+      cpfOrCnpj: values.cpfCnpj,
+      phoneNumber: values.celular,
+      zipCode: values.cep,
+      street: values.endereco,
+      number: values.numero,
+      complement: values.complemento,
+      neighborhood: values.bairro,
+      city: values.cidade,
+      state: values.estado,
+    }, {
+      onSuccess: () => {
+        form.reset();
+      },
+    });
   };
 
   return (
@@ -242,8 +260,12 @@ const AddressForm = () => {
         </div>
 
         <div className="flex justify-end pt-4">
-          <Button type="submit" className="w-full md:w-auto">
-            Salvar Endereço
+          <Button 
+            type="submit" 
+            className="w-full md:w-auto"
+            disabled={createShippingAddressMutation.isPending}
+          >
+            {createShippingAddressMutation.isPending ? "Salvando..." : "Salvar Endereço"}
           </Button>
         </div>
       </form>
